@@ -8,8 +8,8 @@
 	let stripe: Stripe | null = null
 	let amount = 100
 
-	const handleError = (error) => {
-		const messageContainer = document.querySelector('#error-message')
+	const handleError = (error: any) => {
+		const messageContainer = document.querySelector('#error-message') as Element
 		messageContainer.textContent = error.message
 	}
 
