@@ -6,27 +6,21 @@
 	import { page } from '$app/stores'
 
 	let stripe: Stripe | null = null
-	let amount = 100
-
-	const handleError = (error: any) => {
-		const messageContainer = document.querySelector('#error-message') as Element
-		messageContainer.textContent = error.message
-	}
+	let clientSecret = ''
 
 	onMount(async () => {
 		stripe = await getStripe()
-		await onMakeIntent()
 	})
 
 	const onMakeIntent = async () => {
-		const res = await fetch('/api/payment-intent', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({ amount: amount }),
-		})
-		const { clientSecret } = await res.json()
+		// const res = await fetch('/api/payment-intent', {
+		// 	method: 'POST',
+		// 	headers: {
+		// 		'Content-Type': 'application/json',
+		// 	},
+		// 	body: JSON.stringify({ amount: amount }),
+		// })
+		// const { clientSecret } = await res.json()
 		console.log(clientSecret)
 		buildExpressCheckout(clientSecret)
 		buildCard(clientSecret)
@@ -141,15 +135,13 @@
 	}
 </script>
 
-<a href="/manual">Manual</a>
+<a href="/">Top</a>
 
 <hr />
 <div>
-	<input type="number" bind:value={amount} />
+	<input type="text" bind:value={clientSecret} />
 	<button on:click={onMakeIntent}>Update Intent</button>
 </div>
-<h1>Charging JPY {amount}</h1>
-<hr />
 
 <div id="error-message"></div>
 
